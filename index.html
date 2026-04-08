@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VIP视频专区</title>
+  <style>
+    body { text-align:center; font-family:sans-serif; }
+    .video-box { margin:20px; }
+    video { width:300px; }
+    #payBox { display:none; margin-top:30px; }
+    #unlockBtn { display:none; margin-top:20px; padding:10px 20px; }
+  </style>
+</head>
+<body>
+
+<h2>🔥 VIP 视频专区（试看10秒）</h2>
+
+<div class="video-box">
+  <video class="video" controls>
+    <source src="https://chsisi1986.github.io/11/.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="video-box">
+  <video class="video" controls>
+    <source src="https://chsisi1986.github.io/12/.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="video-box">
+  <video class="video" controls>
+    <source src="https://chsisi1986.github.io/13/.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="video-box">
+  <video class="video" controls>
+    <source src="https://chsisi1986.github.io/14/.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- 支付区域 -->
+<div id="payBox">
+  <h3>💰 支付100元解锁全部视频</h3>
+  < img src="https://chsisi1986.github.io/15/" width="200">
+</div>
+
+<button id="unlockBtn" onclick="unlock()">我已支付</button>
+
+<script>
+const videos = document.querySelectorAll(".video");
+
+// 限制试看
+videos.forEach(video => {
+  video.addEventListener("timeupdate", () => {
+    if (!localStorage.getItem("paid")) {
+      if (video.currentTime >= 10) {
+        video.pause();
+        document.getElementById("payBox").style.display = "block";
+        document.getElementById("unlockBtn").style.display = "inline-block";
+      }
+    }
+  });
+});
+
+// 解锁（演示用）
+function unlock() {
+  localStorage.setItem("paid", "true");
+  alert("已解锁全部视频");
+
+  videos.forEach(v => {
+    v.currentTime = 10;
+    v.play();
+  });
+
+  document.getElementById("payBox").style.display = "none";
+  document.getElementById("unlockBtn").style.display = "none";
+}
+</script>
+
+</body>
+</html>
