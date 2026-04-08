@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VIP视频</title>
+  <style>
+    body { text-align:center; font-family:sans-serif; }
+    #pay { display:none; margin-top:20px; }
+    #unlockBtn { display:none; margin-top:20px; }
+  </style>
+</head>
+<body>
+
+<h2>🔥 VIP 专属视频</h2>
+
+<p id="tip"></p>
+
+<video id="video" width="320" controls>
+  <source src="https://你的视频地址.mp4" type="video/mp4">
+</video>
+
+<div id="pay">
+  <h3>扫码支付解锁完整版</h3>
+  <img src="https://你的收款二维码图片.png" width="200">
+</div>
+
+<button id="unlockBtn" onclick="unlock()">我已支付</button>
+
+<script>
+// 判断微信
+function isWeChat() {
+  return /micromessenger/i.test(navigator.userAgent);
+}
+
+// 微信内提示跳浏览器
+if (isWeChat()) {
+  document.getElementById("tip").innerText = "请点击右上角 → 在浏览器打开";
+} else {
+  document.getElementById("tip").innerText = "试看10秒，付费观看完整版";
+}
+
+const video = document.getElementById("video");
+
+// 限制试看10秒
+video.addEventListener("timeupdate", () => {
+  if (!localStorage.getItem("paid")) {
+    if (video.currentTime >= 10) {
+      video.pause();
+      document.getElementById("pay").style.display = "block";
+      document.getElementById("unlockBtn").style.display = "block";
+    }
+  }
+});
+
+// 点击已支付（演示用）
+function unlock() {
+  localStorage.setItem("paid", "true");
+  alert("已解锁完整版");
+  video.currentTime = 10;
+  video.play();
+}
+</script>
+
+</body>
+</html>
